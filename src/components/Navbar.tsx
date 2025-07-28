@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import LogoutModal from './modals/LogoutModal';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -29,6 +31,19 @@ const Navbar = () => {
     setUser(null);
     toast.success('Logged out successfully');
     router.push('/login');
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutModal(false);
+    handleLogout();
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutModal(false);
   };
 
   const navLinks = [
@@ -71,11 +86,16 @@ const Navbar = () => {
                   Welcome, {user?.firstName || 'User'}
                 </span>
                 <button
-                  onClick={handleLogout}
+                  onClick={handleLogoutClick}
                   className="text-red-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                 >
                   Logout
                 </button>
+                <LogoutModal
+                  isOpen={showLogoutModal}
+                  onConfirm={handleLogoutConfirm}
+                  onCancel={handleLogoutCancel}
+                />
               </>
             ) : (
               <>
