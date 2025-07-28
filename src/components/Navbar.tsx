@@ -54,6 +54,7 @@ const Navbar = () => {
     { href: '/blog', label: 'Blog' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact' },
+    { href: '/user', label: 'User' },
   ];
 
   const getLinkClasses = (href: string) =>
